@@ -37,7 +37,7 @@ This will save your settings for use by the monitor script.
 To make sure `ping.py` runs automatically on system reboot, add it to your crontab with:
 
 ```bash
-(crontab -l 2>/dev/null; echo "@reboot /usr/bin/python3 /full/path/to/ping.py") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot /usr/bin/python3 ping.py") | crontab -
 ```
 
 > Replace `/full/path/to/ping.py` with the **actual full path** of the script.
