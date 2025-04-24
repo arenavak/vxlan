@@ -1,38 +1,66 @@
-🛰️ VXLAN Tunnel Setup & Monitor
-This project helps you automate VXLAN tunnel creation and monitoring between an Iranian server and foreign servers (like Armenia, France, Germany). It uses Python to set up VXLAN interfaces and ensure persistent connectivity using ping checks and auto-repair logic.
+# 🛰️ VXLAN Tunnel Setup & Monitor
 
-📦 Installation
-Clone or download the required scripts directly:
+This project automates the creation and monitoring of **VXLAN tunnels** between an Iranian server and foreign servers (such as Armenia, France, and Germany). It ensures persistent connectivity using Python scripts that create VXLAN interfaces and automatically repair them if the connection drops.
 
+---
 
+## 📦 Download Scripts
+
+Use the following commands to download the necessary scripts:
+
+```bash
 wget https://raw.githubusercontent.com/arenavak/vxlan/main/vxlan_setup.py
 wget https://raw.githubusercontent.com/arenavak/vxlan/main/ping.py
-⚙️ Setup
-Run the setup script to configure VXLAN connections:
+```
 
+---
 
+## ⚙️ Initial Setup
+
+Run the setup script to configure your VXLAN connections:
+
+```bash
 sudo python3 vxlan_setup.py
+```
+
 You will be asked:
+- Whether this is an **Iran** or **Kharej (foreign)** server
+- The name of your network interface (e.g., `ens3`)
+- The IP addresses of the peer servers
 
-Whether the server is Iran or Kharej (foreign)
+This will save your settings for use by the monitor script.
 
-The network interface name (e.g., ens3)
+---
 
-Remote IPs of the other servers
+## 🔁 Run on Boot (Auto-Reconnect)
 
-This script saves your configuration for use by the monitor script.
+To make sure `ping.py` runs automatically on system reboot, add it to your crontab with:
 
-🔁 Auto-Restart on Reboot
-To make sure VXLAN tunnels are checked and re-established on reboot, add ping.py to crontab:
-
-
+```bash
 (crontab -l 2>/dev/null; echo "@reboot /usr/bin/python3 /full/path/to/ping.py") | crontab -
-Replace /full/path/to/ping.py with the actual path on your system.
+```
 
-▶️ Run Monitor Script Manually
-You can also manually run the monitor script:
+> Replace `/full/path/to/ping.py` with the **actual full path** of the script.
 
+---
 
+## ▶️ Run the Monitor Script Manually
+
+You can also manually launch the tunnel monitor anytime:
+
+```bash
 sudo python3 ping.py
-It will continuously ping your VXLAN peers and reinitialize any tunnel that goes down.
+```
+
+This script pings all VXLAN peers and will automatically restart any tunnel that goes down.
+
+---
+
+## 🛠️ Requirements
+
+- Python 3
+- `ip` and `ping` commands (usually available by default on most Linux distros)
+- Root/sudo access
+
+---
 
