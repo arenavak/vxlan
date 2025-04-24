@@ -21,15 +21,12 @@ def set_tunel(tunel):
         local_tunel_ip="1"
 
     text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev ens3 remote {tunel_to} dstport 4789
-        ip addr add 192.168.{subnet}.{local_ip}/30 dev vxlan{subnet}
+        ip addr add 192.168.{subnet}.{local_ip}/24 dev vxlan{subnet}
         ip link set vxlan{subnet} up"""
     
     os.system(text)
 
-    while not ping_host(f"192.168.{subnet}.{local_tunel_ip}"):
-        print("tunel not set yet waiting for the other server to connect ")
-        time.sleep(1)
-    print("tunel has been setup successfully ✅")
+    
 
 
 while True :
