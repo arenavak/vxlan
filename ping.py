@@ -39,7 +39,7 @@ while True :
                 if status=="iran":
                     local_tunel_ip=f"192.168.{subnet}.2"
                 elif status=="kharej":
-                    local_tunel_ip=f"192.168.{subnet}.2"                
+                    local_tunel_ip=f"192.168.{subnet}.1"                
               
                 if not ping_host(local_tunel_ip):
                       print("ping failed , setting tunel now")
