@@ -3,24 +3,21 @@ import time
 import pickle
 
 
+# tunel structure  : [status],[subnet],[ip iran],[ip kharej]
+# status : iran or kahrej 
+# subnet : 192.168.{subnet},0/30
+
+
 
 def clear():
     os.system("clear")
 
 
 
-
-tunels=[]
-
-
-try:
-    with open("tunels.txt", "rb") as file:  # "rb" = read binary mode
-        tunels = pickle.load(file)
-except:
-    with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
-        pickle.dump(tunels, file)
-    with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
-        pickle.dump(tunels, file)
+    
+def tunels_printer(tunels):
+    for i in tunels:
+        print(f"status : {i[0]} , subnet : 192.168.{i[1]}.0/30 , ip Iran : {i[2]} , ip kharej : {i[3]}")
 
 
 
@@ -76,6 +73,7 @@ def set_tunel(tunel):
 
 
 
+
 def clear_tunels(tunels):
     for tunel in tunels:
         text=f"ip link del vxlan{tunel[1]} 2>/dev/null"
@@ -85,12 +83,47 @@ def clear_tunels(tunels):
     with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
         pickle.dump(tunels, file)
 
+def clear_tunel(tunels):
+    
+    tunels_printer(tunels)
+    tunel=str(input("enter tunels subnet to be deleted\n : "))
+    flag=0
+    for i in tunels:
+        if i[1]==tunel:
+            flag=1
+            text=f"ip link del vxlan{tunel[1]} 2>/dev/null"
+            os.system(text)
+            tunels.remove(i)
+            with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
+                pickle.dump(tunels, file)
+
+    if flag==0:
+        print("theres nor such a tunel !!!")
+
+
+
+
+
+tunels=[]
+
+
+try:
+    with open("tunels.txt", "rb") as file:  # "rb" = read binary mode
+        tunels = pickle.load(file)
+except:
+    with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
+        pickle.dump(tunels, file)
+    with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
+        pickle.dump(tunels, file)
+
+
+
 
 
 
 clear()
 while True:
-    menu1 =str(input("welcome to vxlan tunel setup\n\n1)set tunel for iran server\n2)set tunel for kharej server (can add multiple servers)\n3)clear All tunels \n: "))
+    menu1 =str(input("welcome to vxlan tunel setup\n\n1)set tunel for iran server\n2)set tunel for kharej server (can add multiple servers)\n3)show All tunels \n4)clear a tunel\n5)exit \n: "))
     if menu1=="1":
         status="iran"
         tunel=ask_tunel(tunels,status)
@@ -100,9 +133,14 @@ while True:
         tunel=ask_tunel(tunels,status)
         set_tunel(tunel)
     elif menu1=="3":
-        clear_tunels(tunels)
+        tunels_printer(tunels)
+        x=input("press enter ...")
+    elif menu1=="4":
+        clear_tunel(tunels)
+        x=input("press enter ...")
+    elif menu1=="5":
+        break
     else:
         print("wrong option please eneter 1,2,3")
-
 
 
