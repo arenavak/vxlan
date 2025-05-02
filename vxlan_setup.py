@@ -46,7 +46,7 @@ def ask_tunel(tunels,status):
 
 
 
-def set_tunel(tunel):
+def set_tunel(tunel,main_interface):
     subnet=tunel[1]
     if status=="iran":
         tunel_to=tunel[3]
@@ -57,7 +57,7 @@ def set_tunel(tunel):
         local_ip="2"
         local_tunel_ip="1"
 
-    text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev ens3 remote {tunel_to} dstport 4789
+    text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev {main_interface} remote {tunel_to} dstport 4789
         ip addr add 192.168.{subnet}.{local_ip}/30 dev vxlan{subnet}
         ip link set vxlan{subnet} up"""
     
@@ -116,26 +116,40 @@ except:
     with open("tunels.txt", "wb") as file:  # "wb" = write binary mode
         pickle.dump(tunels, file)
 
-
+with open("vxlan_tunel_files.txt", "rb") as file:  # "rb" = read binary mode
+    main_interface = pickle.load(file)
+main_interface=str(main_interface)
 
 
 
 
 clear()
 while True:
+    print("\033[1;32m" + """
+##################################################
+#                                                #
+#           VXLAN TUNNEL SETUP SCRIPT FOR LINUX  #
+#                                                #
+##################################################
+""" + "\033[0m")
+
     menu1 =str(input("welcome to vxlan tunel setup\n\n1)set tunel for iran server\n2)set tunel for kharej server (can add multiple servers)\n3)show All tunels \n4)clear a tunel\n5)exit \n: "))
     if menu1=="1":
+        clear()
         status="iran"
         tunel=ask_tunel(tunels,status)
-        set_tunel(tunel)
+        set_tunel(tunel,main_interface)
     elif menu1=="2":
+        clear()
         status="kharej"
         tunel=ask_tunel(tunels,status)
-        set_tunel(tunel)
+        set_tunel(tunel,main_interface)
     elif menu1=="3":
+        clear()
         tunels_printer(tunels)
         x=input("press enter ...")
     elif menu1=="4":
+        clear()
         clear_tunel(tunels)
         x=input("press enter ...")
     elif menu1=="5":
