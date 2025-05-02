@@ -1,4 +1,4 @@
-  import os
+import os
 import pickle
 import subprocess
 import time
@@ -17,7 +17,7 @@ def get_main_interface():
 
 def save_interface_name(interface_name):
     with open(CONFIG_FILE, "wb") as f:
-        pickle.dump({"interface": interface_name}, f)
+        pickle.dump(interface_name, f)
     print(f"[✔] Interface '{interface_name}' saved to {CONFIG_FILE}")
 
 def download_files():
