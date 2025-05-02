@@ -31,7 +31,6 @@ python3 vxlan_setup.py
 
 This will allow you to configure your VXLAN connections, including:
 - Whether this is an **Iran** or **Kharej (foreign)** server
-- The name of your network interface (e.g., `ens3`)
 - The IP addresses of the peer servers
 
 Your settings will be saved and used by the monitor script.
