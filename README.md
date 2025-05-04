@@ -1,6 +1,6 @@
 
----
 
+---
 
 # 🛰️ VXLAN Tunnel Setup & Monitor
 
@@ -12,14 +12,15 @@ This project automates the creation and monitoring of **VXLAN tunnels** between 
 
 This script sets up a **VXLAN (Virtual Extensible LAN)** tunnel between two servers—typically one in **Iran** and one **abroad**. A VXLAN tunnel acts like a virtual network cable that links two machines on different networks, as if they were side by side on the same LAN.
 
-- It adds a **virtual network interface** to your system (e.g., `vxlan100`).
-- You choose a **subnet number** (like `100`, `101`, etc.).
-- The **VXLAN ID** will be exactly the same as the subnet number you enter.
-- The tunnel assigns:
-  - **Iran Server**: `192.168.<your_subnet>.1`
-  - **Foreign Server**: `192.168.<your_subnet>.2`
-- This allows you to **ping each server from the other** using local IPs across a secure VXLAN tunnel.
-- You can create **up to 256 separate tunnels**, each with its own VXLAN ID and subnet, ideal for managing multiple services in parallel.
+* It adds a **virtual network interface** to your system (e.g., `vxlan100`).
+* You choose a **subnet number** (like `100`, `101`, etc.).
+* The **VXLAN ID** will be exactly the same as the subnet number you enter.
+* The tunnel assigns:
+
+  * **Iran Server**: `192.168.<your_subnet>.1`
+  * **Foreign Server**: `192.168.<your_subnet>.2`
+* This allows you to **ping each server from the other** using local IPs across a secure VXLAN tunnel.
+* You can create **up to 256 separate tunnels**, each with its own VXLAN ID and subnet, ideal for managing multiple services in parallel.
 
 This setup is **perfect for X-UI / 3X-UI** installations, allowing internal API calls or management ports to connect securely without exposing services publicly.
 
@@ -31,7 +32,7 @@ To get started, download the installer script:
 
 ```bash
 wget https://raw.githubusercontent.com/arenavak/vxlan/main/installer.py
-````
+```
 
 Then run the installer:
 
@@ -53,7 +54,11 @@ From there you can:
 
 * Select whether this is an **Iran** or **Foreign (Kharej)** server
 * Enter the IP address of the **peer server**
+* Choose a **VXLAN port** (optional — default is 4789)
 * Choose a **subnet number**, which also becomes your **VXLAN ID**
+
+> 🛑 **Note:** You can now set a custom VXLAN port.
+> The default port is `4789`, but it's **recommended to use ports above `10000` and below `65535`** to avoid conflicts and improve compatibility with firewalls.
 
 ---
 
@@ -96,4 +101,5 @@ TFXSXuRAkNRNEKtWCNSXKjTWQQ2kTQy2Yu
 
 Thank you for your support! ❤️
 
+---
 
