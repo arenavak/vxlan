@@ -2,13 +2,7 @@ import pickle
 import os
 import time
 
-def get_main_interface():
-    output = os.popen("ip route get 1.1.1.1").read()
-    for part in output.split():
-        if part == "dev":
-            index = output.split().index(part)
-            return output.split()[index + 1]
-    return None
+
 
 def ping_host(host):
     """Ping a host and return True if it's reachable, False otherwise."""
@@ -16,6 +10,8 @@ def ping_host(host):
     return response == 0
 
 def set_tunel(tunel):
+    with open("vxlan_tunel_files.txt", "rb") as file:  # "rb" = read binary mode
+        main_interface = pickle.load(file)
     subnet=tunel[1]
     if status=="iran":
         tunel_to=tunel[3]
@@ -26,7 +22,7 @@ def set_tunel(tunel):
         local_ip="2"
         local_tunel_ip="1"
 
-    text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev {get_main_interface()} remote {tunel_to} dstport 4789
+    text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev {main_interface} remote {tunel_to} dstport 4789
         ip addr add 192.168.{subnet}.{local_ip}/30 dev vxlan{subnet}
         ip link set vxlan{subnet} up"""
     
