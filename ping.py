@@ -44,7 +44,7 @@ while True :
                     local_tunel_ip=f"192.168.{subnet}.1"                
               
                 if not ping_host(local_tunel_ip):
-                      print(f"ping failed to {local_tunel_ip}  ❌\n setting tunel now")
+                      print(f"ping failed to {local_tunel_ip}  ❌\nsetting tunel now")
                       set_tunel(tunel)
                 else:
                      print(f"ping successfully reached to {local_tunel_ip}  ✅")
