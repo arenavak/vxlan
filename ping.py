@@ -21,12 +21,12 @@ def set_tunel(tunel):
         tunel_to=tunel[2]
         local_ip="2"
         local_tunel_ip="1"
-
-    text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev {main_interface} remote {tunel_to} dstport 4789
+    down_text=f"ip link del vxlan{subnet}"
+    up_text=f"""ip link add vxlan{subnet} type vxlan id {subnet} dev {str(main_interface)} remote {tunel_to} dstport 4789
         ip addr add 192.168.{subnet}.{local_ip}/30 dev vxlan{subnet}
         ip link set vxlan{subnet} up"""
-    
-    os.system(text)
+    os.system(down_text)
+    os.system(up_text)
 
     
 
@@ -44,7 +44,7 @@ while True :
                     local_tunel_ip=f"192.168.{subnet}.1"                
               
                 if not ping_host(local_tunel_ip):
-                      print("ping failed , setting tunel now")
+                      print(f"ping failed to {local_tunel_ip}  ❌\n setting tunel now")
                       set_tunel(tunel)
                 else:
                      print(f"ping successfully reached to {local_tunel_ip}  ✅")
